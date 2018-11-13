@@ -3,6 +3,7 @@ package com.lvjing.socket;
 import com.lvjing.dao.DatabaseConnection;
 import com.lvjing.util.GpsOperation;
 import com.lvjing.util.HexDecoder;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,9 +66,9 @@ public class ServerThread implements Runnable {
             while ((len = in.read(bytes)) > 0){
                 logger.info("the length of data is:{}", len);
                 String data = byteArrayToHexStr(bytes);
+                //logger.info(data);//data
                 //**用于格式转换**//
                 String tmp = "";
-                String suc = "";
                 String dvc = "";
                 //返回给客户端的消息
                 switch (len){
@@ -125,9 +126,10 @@ public class ServerThread implements Runnable {
                         if (data.contains("F015000C")) {
                             //设置绑定机器号成功
                             String machineId_raw = data.substring(84,108);
-                            String machineId  ="";
+                            //builder较buffer有速度优势，但在多线程情况下建议用StringBuffer
+                            StringBuffer machineId = new StringBuffer();
                             for (int j =0;j<machineId_raw.length();++j){
-                                machineId +=machineId_raw.substring(j+1,j+2);
+                                machineId.append(machineId_raw.subSequence(j+1,j+2));
                                 j++;
                             }
                             cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time = ? WHERE device_id = ? and operation_type= ? and content = ?;";
@@ -135,16 +137,17 @@ public class ServerThread implements Runnable {
                             updateCmd.setString(1, sdf.format(new Date()));
                             updateCmd.setString(2, deviceId);
                             updateCmd.setString(3, "2");
-                            updateCmd.setString(4, machineId);
+                            updateCmd.setString(4, machineId.toString());
                             //执行sql语句
                             System.out.println(updateCmd);
                             updateCmd.executeUpdate();
                         } else if (data.contains("F0120008")) {
                             //修改主要活动时间
                             //String timeSpan = data.substring(84,100);
-                            String timeSpan = "";
+                            //builder较buffer有速度优势，但在多线程情况下建议用StringBuffer
+                            StringBuffer timeSpan = new StringBuffer();
                             for (int j =84;j<100;++j){
-                                timeSpan +=data.substring(j+1,j+2);
+                                timeSpan.append(data.subSequence(j+1,j+2));
                                 j++;
                             }
                             cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time = ? WHERE device_id = ? and operation_type= ? and content = ?;";
@@ -152,7 +155,7 @@ public class ServerThread implements Runnable {
                             updateCmd.setString(1, sdf.format(new Date()));
                             updateCmd.setString(2, deviceId);
                             updateCmd.setString(3, "5");
-                            updateCmd.setString(4, timeSpan);
+                            updateCmd.setString(4, timeSpan.toString());
                             //执行sql语句
                             System.out.println(updateCmd);
 
@@ -170,8 +173,8 @@ public class ServerThread implements Runnable {
                             System.out.println(updateCmd);
 
                             updateCmd.executeUpdate();
-                        }else if (data.contains("F07")) {
-                            //打开/关闭远程启动定位
+                        }else if (data.contains("F1020001")) {
+                            //打开/关闭远程启动
                             String fireSwitch = data.substring(85,86);
                             cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time = ? WHERE device_id = ? and operation_type= ? and content = ?;";
                             PreparedStatement updateCmd = conn.prepareStatement(cmd);

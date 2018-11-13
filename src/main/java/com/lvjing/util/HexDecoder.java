@@ -335,11 +335,12 @@ public class HexDecoder {
                             System.out.println(updateStartSwitchCmd);
                             updateStartSwitchCmd.executeUpdate();
 
-                            String cmd1 = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2  WHERE device_id = ? and operation_type= ? and content = ? ;";
+                            String cmd1 = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time =?  WHERE device_id = ? and operation_type= ? and content = ? ;";
                             PreparedStatement updateCmd1 = conn.prepareStatement(cmd1);
-                            updateCmd1.setString(1, deviceId);
-                            updateCmd1.setString(2, "8");
-                            updateCmd1.setString(3, fireSwitch);
+                            updateCmd1.setString(1, sdf.format(new Date()));
+                            updateCmd1.setString(2, deviceId);
+                            updateCmd1.setString(3, "8");
+                            updateCmd1.setString(4, fireSwitch);
                             //执行sql语句
                             System.out.println(updateCmd1);
                             updateCmd1.executeUpdate();
