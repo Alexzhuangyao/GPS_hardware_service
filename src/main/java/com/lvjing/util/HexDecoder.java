@@ -262,8 +262,16 @@ public class HexDecoder {
                             updateWorkTimeCmd.setString(2, sdf.format(new Date()));
                             updateWorkTimeCmd.setString(3, deviceId);
                             //执行sql语句
-                            System.out.println(updateWorkTimeCmd);
                             updateWorkTimeCmd.executeUpdate();
+                            //workTime1Cmd 用以修改当前状态，从0->1即从0未修改变为1正在修改状态；
+                            String workTime1Cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 1 ,update_time = ? WHERE device_id = ? and operation_type= ? and content = ?;";
+                            PreparedStatement updateWorkTime1Cmd = conn.prepareStatement(workTime1Cmd);
+                            updateWorkTime1Cmd.setString(1, sdf.format(new Date()));
+                            updateWorkTime1Cmd.setString(2, deviceId);
+                            updateWorkTime1Cmd.setString(3, "5");
+                            updateWorkTime1Cmd.setString(4, workTime);//工作时间
+                            //执行sql语句
+                            updateWorkTime1Cmd.executeUpdate();
                             break;
                         case "6":
                             //GPS开关
@@ -286,11 +294,18 @@ public class HexDecoder {
                             updateGPSSwitchCmd.setString(2, sdf.format(new Date()));
                             updateGPSSwitchCmd.setString(3, deviceId);
                             //执行sql语句
-                            System.out.println(updateGPSSwitchCmd);
                             updateGPSSwitchCmd.executeUpdate();
+                            //System.out.println(updateGPSSwitchCmd);
+                            //workTime1Cmd 用以修改当前状态，从0->1即从0未修改变为1正在修改状态
+                            String GPSSwitch1Cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 1 ,update_time = ? WHERE device_id = ? and operation_type= ? and content = ?;";
+                            PreparedStatement updateGPSSwitch1Cmd = conn.prepareStatement(GPSSwitch1Cmd);
+                            updateGPSSwitch1Cmd.setString(1, sdf.format(new Date()));
+                            updateGPSSwitch1Cmd.setString(2, deviceId);
+                            updateGPSSwitch1Cmd.setString(3, "6");
+                            updateGPSSwitch1Cmd.setString(4, GPSSwitch);
                             break;
                         case "7":
-                            //设置休眠间隔，单位秒
+                            //设置休眠间隔，单位秒,如1200
                             String restTime = resultSet.getString(2);
                             i = Integer.parseInt(restTime);
                             hex = i.toHexString(i).toUpperCase();
@@ -305,9 +320,15 @@ public class HexDecoder {
                             updateRestTimeCmd.setString(1, restTime);
                             updateRestTimeCmd.setString(2, deviceId);
                             //执行sql语句
-                            System.out.println(updateRestTimeCmd);
                             updateRestTimeCmd.executeUpdate();
-
+                            //System.out.println(updateRestTimeCmd);
+                            //workTime1Cmd 用以修改当前状态，从0->1即从0未修改变为1正在修改状态
+                            String RestTime1Cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 1 ,update_time = ? WHERE device_id = ? and operation_type= ? and content = ?;";
+                            PreparedStatement updateRestTime1Cmd = conn.prepareStatement(RestTime1Cmd);
+                            updateRestTime1Cmd.setString(1, sdf.format(new Date()));
+                            updateRestTime1Cmd.setString(2, deviceId);
+                            updateRestTime1Cmd.setString(3, "7");
+                            updateRestTime1Cmd.setString(4, restTime);
                             break;
                         case "8":
                             //远程启动开关 1为开 2为关
@@ -334,8 +355,7 @@ public class HexDecoder {
                             //执行sql语句
                             System.out.println(updateStartSwitchCmd);
                             updateStartSwitchCmd.executeUpdate();
-
-                            String cmd1 = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time =?  WHERE device_id = ? and operation_type= ? and content = ? ;";
+                            String cmd1 = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 1 ,update_time =?  WHERE device_id = ? and operation_type= ? and content = ? ;";
                             PreparedStatement updateCmd1 = conn.prepareStatement(cmd1);
                             updateCmd1.setString(1, sdf.format(new Date()));
                             updateCmd1.setString(2, deviceId);

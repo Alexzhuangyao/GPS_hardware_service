@@ -126,7 +126,7 @@ public class ServerThread implements Runnable {
                         if (data.contains("F015000C")) {
                             //设置绑定机器号成功
                             String machineId_raw = data.substring(84,108);
-                            //builder较buffer有速度优势，但在多线程情况下建议用StringBuffer
+                            //在字符串拼接,builder较buffer有速度优势，但在多线程情况下建议用StringBuffer
                             StringBuffer machineId = new StringBuffer();
                             for (int j =0;j<machineId_raw.length();++j){
                                 machineId.append(machineId_raw.subSequence(j+1,j+2));
@@ -171,10 +171,9 @@ public class ServerThread implements Runnable {
                             updateCmd.setString(4, GPSSwitch);
                             //执行sql语句
                             System.out.println(updateCmd);
-
                             updateCmd.executeUpdate();
                         }else if (data.contains("F1020001")) {
-                            //打开/关闭远程启动
+                            //打开/关闭远程启动 TODO 这里datacontain有问题
                             String fireSwitch = data.substring(85,86);
                             cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time = ? WHERE device_id = ? and operation_type= ? and content = ?;";
                             PreparedStatement updateCmd = conn.prepareStatement(cmd);
