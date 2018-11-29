@@ -99,16 +99,19 @@ public class ServerThread implements Runnable {
                 logger.info("output response data:" + tmp);
 
                 //对时帧 TODO 顺序
-                if (len ==76){
+//                if (len == 76 || len==74){
+                if (data.substring(44,56)=="180718010034" || data.substring(44,56)=="180718010035"){
                     //只做保存操作；
                     gpsOperation.saveCheckTime(data);
+                    logger.info("进入修改参数操作函数。");
                     try {
                         //判断DEVICE_PARAM_CONFIG表内是否有需要修改的参数,有则下发第一个。
                         dvc = hexDecoder.sendDeviceParamConfigChangeCommand(data);
-                        System.out.println(dvc);
+                        //System.out.println(dvc);
                         out.write(toBytes(dvc));
                         //阻塞线程，30秒后break并关闭此线程，在接收data_frame之后不接受任何消息。
                         //Thread.currentThread().sleep(30000);//毫秒
+                        logger.info("修改参数下发："+dvc);
                     } catch (Exception e) {
                         logger.error(e.getMessage());
                     }

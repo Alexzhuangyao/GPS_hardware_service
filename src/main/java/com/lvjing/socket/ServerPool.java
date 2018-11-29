@@ -35,6 +35,7 @@ public class ServerPool {
              * 不间断地接受的，所以服务端的编程一般都永无休止的运行
              */
             ServerSocket ss = new ServerSocket(8888);
+
             logger.info("the server is started...");
             while (true) {
                 /**

@@ -1,0 +1,54 @@
+#查看springboot开启了哪些配置
+
+debug: false
+
+spring:
+
+  profiles:
+#默认启用xxxx环境，本地调试使用
+    active: test
+---
+#测试环境配置
+spring:
+  profiles: test
+  datasource:
+      url: jdbc:mysql://39.106.10.110:3306/lvjingcleaning?useUnicode=true&characterEncoding=UTF-8&useSSL=true
+      username: test
+      password: test123!@#
+      driver-class-name: com.mysql.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+server:
+  port: 8094
+
+mybatis:
+  config-locations: classpath:/mybatisConfig.xml
+  mapper-locations: classpath:mybatis/*.xml
+  type-aliases-package: com.lvjing.domain
+
+---
+
+#线上环境配置
+
+spring:
+
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://rm-bp170nx0g4w9s946x0o.mysql.rds.aliyuncs.com:3306/lvjingcleaning?useUnicode=true&characterEncoding=UTF-8&useSSL=true
+    username: root
+    password: root123!@#
+    driver-class-name: com.mysql.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+server:
+
+  port: 8094
+
+mybatis:
+  config-locations: classpath:/mybatisConfig.xml
+  mapper-locations: classpath:mybatis/*.xml
+  type-aliases-package: com.lvjing.domain
