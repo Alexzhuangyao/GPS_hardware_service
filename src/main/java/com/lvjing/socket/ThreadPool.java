@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
  * @Date: Created by huanghua on 2018/6/25.
  * @Modified By:
  */
+@SuppressWarnings("ALL")
 @Component
 public class ThreadPool{
 

@@ -6,7 +6,7 @@ spring:
 
   profiles:
 #默认启用xxxx环境，本地调试使用
-    active: test
+    active: dev
 ---
 #测试环境配置
 spring:

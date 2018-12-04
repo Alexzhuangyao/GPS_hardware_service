@@ -25,8 +25,10 @@ public class BatteryVoltageReader {
          */
         String result = "";
         String dataPayLoad = "";
+        //TODO 提高字符串拼接效率
+        StringBuffer stringBuffer = new StringBuffer();
         if(StringUtils.isNotBlank(voltage)){
-            dataPayLoad = voltage.substring(8,voltage.length());
+            dataPayLoad = voltage.substring(8);
             for(int i = 0;i < dataPayLoad.length();i = i + 2){
                 String str = dataPayLoad.substring(i,i+2);
                 if(!StringUtils.equals(str,"00")){

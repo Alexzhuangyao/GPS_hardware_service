@@ -28,6 +28,8 @@ public class PositionReader {
          */
         String result = "";
         String dataPayLoad = "";
+        //TODO 提高字符串拼接效率
+        StringBuffer stringBuffer = new StringBuffer();
         if(StringUtils.isNotBlank(location)){
             dataPayLoad = location.substring(8,location.length());
 

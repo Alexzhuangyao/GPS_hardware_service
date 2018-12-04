@@ -21,14 +21,14 @@ public class DatabaseConnection {
     private static Connection conn = null;
 
     private static final Logger logger = LoggerFactory.getLogger(DatabaseConnection.class);
-    //测试
-    public static String url = "jdbc:mysql://39.106.10.110:3306/lvjingcleaning?useUnicode=true&characterEncoding=UTF-8&useSSL=true";
-    public static String userName = "test";
-    public static String psw = "test123!@#";
+//    //测试
+//    public static String url = "jdbc:mysql://39.106.10.110:3306/lvjingcleaning?useUnicode=true&characterEncoding=UTF-8&useSSL=true";
+//    public static String userName = "test";
+//    public static String psw = "test123!@#";
     //线上
-//    public static String url = "jdbc:mysql://rm-bp170nx0g4w9s946x0o.mysql.rds.aliyuncs.com:3306/lvjingcleaning?useUnicode=true&characterEncoding=UTF-8&useSSL=true";
-//    public static String userName = "root";
-//    public static String psw = "root123!@#";
+    public static String url = "jdbc:mysql://rm-bp170nx0g4w9s946x0o.mysql.rds.aliyuncs.com:3306/lvjingcleaning?useUnicode=true&characterEncoding=UTF-8&useSSL=true";
+    public static String userName = "root";
+    public static String psw = "root123!@#";
 
     public static Connection getCon() {
         try {

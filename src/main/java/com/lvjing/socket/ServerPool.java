@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -26,6 +27,8 @@ public class ServerPool {
     private static final Logger logger = LoggerFactory.getLogger(ServerPool.class);
 
     //@PostConstruct
+    //以下注释忽略代码中死循环的报错；
+    @SuppressWarnings("InfiniteLoopStatement")
     public  void startServer() throws IOException {
         int count = 1;
         try {

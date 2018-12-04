@@ -99,11 +99,12 @@ public class ServerThread implements Runnable {
                 logger.info("output response data:" + tmp);
 
                 //对时帧 TODO 顺序
-//                if (len == 76 || len==74){
-                if (data.substring(44,56)=="180718010034" || data.substring(44,56)=="180718010035"){
+                if (len == 76 || len == 74){
+//                if (data.substring(44,56).equals("180718010034") || data.substring(44,56).equals("180718010035")){
                     //只做保存操作；
+                    //logger.info("进入修改参数操作函数。1");
                     gpsOperation.saveCheckTime(data);
-                    logger.info("进入修改参数操作函数。");
+                    //logger.info("进入修改参数操作函数。2");
                     try {
                         //判断DEVICE_PARAM_CONFIG表内是否有需要修改的参数,有则下发第一个。
                         dvc = hexDecoder.sendDeviceParamConfigChangeCommand(data);
@@ -250,6 +251,8 @@ public class ServerThread implements Runnable {
          * @Date: 2018/6/20
          */
         String str = "";
+        //TODO 提高字符串拼接效率
+        StringBuffer stringBuffer = new StringBuffer();
         for (int i = 0; i < param.length(); i++) {
             int ch = (int) param.charAt(i);
             String s4 = Integer.toHexString(ch);
