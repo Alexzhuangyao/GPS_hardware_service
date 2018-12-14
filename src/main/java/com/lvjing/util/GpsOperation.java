@@ -3,8 +3,10 @@ package com.lvjing.util;
 import com.lvjing.common.BatteryVoltageReader;
 import com.lvjing.common.PositionReader;
 import com.lvjing.common.VibrantReader;
+import com.lvjing.common.RunTimeReader;
 import com.lvjing.dao.DatabaseConnection;
-import org.apache.velocity.runtime.directive.Break;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -31,15 +33,20 @@ public class GpsOperation {
 
     PositionReader positionReader = new PositionReader();
 
+    RunTimeReader runTimeReader = new RunTimeReader();
+
     BatteryVoltageReader batteryVoltageReader = new BatteryVoltageReader();
 
     VibrantReader vibrantReader = new VibrantReader();
 
+    @Resource
+    Matcher matcher;
+    @Resource
+    Pattern pattern;
+
     public boolean saveGPSRegister(String param) {   //向数据库中加入数据
         boolean result = false;
         Connection conn = null;
-
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
         //logger.info("注册帧总长度为{}",param.length());
 
@@ -98,16 +105,33 @@ public class GpsOperation {
 
     public boolean saveGPSData(String param) {   //向数据库中加入数据
         boolean result = false;
-        Connection conn = null;
+        Connection conn=null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-        //logger.info("数据帧总长度为{}",param.length());
-        String header = param.substring(0, 36);
-        String deviceId = "D" + param.substring(44, 56);
-        String signStart = param.substring(56, 66);
-        String stationLatitude = positionReader.transform(param.substring(66, 98));
-        String stationLongitude = positionReader.transform(param.substring(98, 130));
-        String GPSLatitude = positionReader.transform(param.substring(130, 162));
-        String GPSLongitude = positionReader.transform(param.substring(162, 194));
+        //这里采用正则匹配，增加兼容性。
+        pattern = Pattern.compile("(.*)(00010006)(.*)(0005000102)(.*)(1790)(.*)(1791)(.*)(1792)(.*)(1793)(.*)(1794)(.*)(1795)(.*)(1796)(.*)(1797)(.*)(00070002)(.*)");
+        matcher = pattern.matcher(param);
+        System.out.println(matcher.matches());
+        String header = matcher.group(1);
+        String deviceId = "D"+matcher.group(3);//sn0
+        String signStart = "0005000102";
+        String stationLatitude = positionReader.transform(matcher.group(7));//基站纬度
+        String stationLongitude = positionReader.transform(matcher.group(9));//基站精度
+        String GPSLatitude = positionReader.transform(matcher.group(11));//GPS经度
+        String GPSLongitude = positionReader.transform(matcher.group(13));//GPS纬度
+        String batteryVoltage = batteryVoltageReader.transform(matcher.group(15));//电池电压
+        String signalIntensity = matcher.group(17);//信号强度
+        String runTime = runTimeReader.transform(matcher.group(19));//步数1796
+        String isVibrant = vibrantReader.transform(matcher.group(21));//是否震动
+        String signEnd = "0006000103";
+        String data_crc = matcher.group(23).substring(0,4);//CRC
+        //2018/12/13之前版本
+//        String header = param.substring(0, 36);
+//        String deviceId = "D" + param.substring(44, 56);
+//        String signStart = param.substring(56, 66);
+//        String stationLatitude = positionReader.transform(param.substring(66, 98));
+//        String stationLongitude = positionReader.transform(param.substring(98, 130));
+//        String GPSLatitude = positionReader.transform(param.substring(130, 162));
+//        String GPSLongitude = positionReader.transform(param.substring(162, 194));
 
         stationLatitude = String.valueOf(positionUtil.transform(Double.parseDouble(stationLatitude), Double.parseDouble(stationLongitude)).getWgLat());
         if (stationLatitude.length() > 12) {
@@ -126,11 +150,13 @@ public class GpsOperation {
             GPSLongitude = GPSLongitude.substring(0, 12);
         }
 
-        String batteryVoltage = batteryVoltageReader.transform(param.substring(194, 222));
-        String signalIntensity = param.substring(230, 234);//1795
-        signalIntensity = (signalIntensity.substring(1, 2) + signalIntensity.substring(3, 4));
+//        String batteryVoltage = batteryVoltageReader.transform(param.substring(194, 222));
+//        String signalIntensity = param.substring(230, 234);//1795:信号强度
+//        String runTime = param.substring(238, 252);//1796:步数
+//        String isVibrant = vibrantReader.transform(param.substring(252, 262));
+//        String data_crc = param.substring(280, 284);
+        signalIntensity = (signalIntensity.substring(5, 6) + signalIntensity.substring(7, 8));
         int signallevel = Integer.parseInt(signalIntensity);
-        System.out.println(signallevel);
         //判断信号强弱
         if (signallevel >= 30) {
             signallevel = 4;
@@ -143,13 +169,7 @@ public class GpsOperation {
         } else {
             signallevel = 0;
         }
-        String runTime = param.substring(238, 252);//1796
-        String isVibrant = vibrantReader.transform(param.substring(252, 262));
-        String signEnd = param.substring(262, 272);
-        String data_crc = param.substring(280, 284);
-
         try {
-
             conn = DatabaseConnection.getCon();  //建立数据库连接
             //在DATA_FRAME中添加数据帧记录
             String Insert =

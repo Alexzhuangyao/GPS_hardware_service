@@ -1,6 +1,7 @@
 package com.lvjing.common;
 
 import org.apache.commons.lang.StringUtils;
+import org.omg.CORBA.DATA_CONVERSION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -31,11 +32,11 @@ public class PositionReader {
         //TODO 提高字符串拼接效率
         StringBuffer stringBuffer = new StringBuffer();
         if(StringUtils.isNotBlank(location)){
-            dataPayLoad = location.substring(8,location.length());
-
+            dataPayLoad = location.substring(4);
+            System.out.println(dataPayLoad);
             for(int i = 0;i < dataPayLoad.length();i = i + 2){
                 String str = dataPayLoad.substring(i,i+2);
-
+                //System.out.println(str);
                 if(StringUtils.equals("2E",str)){
                     result = result + ".";
                 }else{

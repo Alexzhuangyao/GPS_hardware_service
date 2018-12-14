@@ -18,9 +18,9 @@ public class VibrantReader {
 
     public String transform(String isVibrant){
         if(StringUtils.isNotBlank(isVibrant)){
-            if(StringUtils.equals(isVibrant,"1797000131")){
+            if(isVibrant.contains("000131")){
                 return "1";
-            }else if(StringUtils.equals(isVibrant,"1797000130")){
+            }else if(isVibrant.contains("000130")){
                 return "0";
             }
         }

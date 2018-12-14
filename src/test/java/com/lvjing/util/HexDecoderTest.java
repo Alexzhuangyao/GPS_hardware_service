@@ -3,7 +3,10 @@ package com.lvjing.util;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Author:HuangHua
@@ -13,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 
 @RunWith(SpringRunner.class)
+@ContextConfiguration
 @SpringBootTest
 
 public class HexDecoderTest {
@@ -44,11 +48,33 @@ public class HexDecoderTest {
 //                " 00 07 00 02 B9 E6";
 //        String param4 = param3.replaceAll(" ","");
 //        hexDecoder.readDataFrame(param4);
+        //dataframe
+        String param5 =
+                "7E7E232355544E220003181213134146008E000100064C4A0100001600050001021790000C33302E3237393437320000001791000C3132302E31303234383000001792000C302E303030303030000000001793000C302E30303030303000000000179400083431353700000000179500043135000017960005360000000017970001300006000103000700022E21";
+        System.out.println(param5);
+        Pattern pattern = Pattern.compile("(.*)(00010006)(.*)(00016000)(.*)(1790)(.*)(1791)(.*)(1792)(.*)(1793)(.*)(1794)(.*)(1795)(.*)(1796)(.*)(1797)(.*)(00070002)(.*)(0*)");
+        Matcher matcher = pattern.matcher(param5);
+        System.out.println("header:"+matcher.matches());
+        System.out.println("0:"+matcher.group(0));
+        System.out.println("1:"+matcher.group(1));
+        System.out.println("2:"+matcher.group(2));//00010006
+        System.out.println("3:"+matcher.group(3));//sn
+        System.out.println("4:"+matcher.group(4));
+        System.out.println("5:"+matcher.group(5));
+        System.out.println("6:"+matcher.group(6));
+        System.out.println("7:"+matcher.group(7));//基站纬度
+        System.out.println("9:"+matcher.group(9));//基站精度
+        System.out.println("11:"+matcher.group(11));//GPS经度
+        System.out.println("13:"+matcher.group(13));//GPS纬度
+        System.out.println("15:"+matcher.group(15));//电池电压
+        System.out.println("17:"+matcher.group(17));//信号强度
+        System.out.println("19:"+matcher.group(19));//步数
+        System.out.println("21:"+matcher.group(21));//是否震动
+        System.out.println("23:"+matcher.group(23));//CRC
+
+
         String i = "04B0";
-        System.out.println(Integer.valueOf(i,16).toString());
-
-
-
+        System.out.println(Integer.valueOf(i,16 ).toString());
 
         System.out.println(HexDecoder.bytes2HexString(i.getBytes()));
         //System.out.println(HexDecoder.bytes2HexString(toBytes(i)));

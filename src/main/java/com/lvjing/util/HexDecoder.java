@@ -6,14 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Author:HuangHua
@@ -74,19 +71,19 @@ public class HexDecoder {
         //logger.info("数据帧总长度为{}",param.length());
 
         if (StringUtils.isNotBlank(param)) {
-            String header = param.substring(0, 36);
+//            String header = param.substring(0, 36);
             String sn = param.substring(36, 56);
-            String signStart = param.substring(56, 66);
+//            String signStart = param.substring(56, 66);
             //String data = param.substring(66,280);
-            String stationLatitude = param.substring(66, 98);
-            String stationLongitude = param.substring(98, 130);
-            String GPSLatitude = param.substring(130, 162);
-            String GPSLongititude = param.substring(162, 194);
-            String batteryVoltage = param.substring(194, 222);
-            String runTime = param.substring(222, 238);
-            String signalIntensity = param.substring(238, 252);
-            String isVibrant = param.substring(252, 262);
-            String signEnd = param.substring(262, 272);
+//            String stationLatitude = param.substring(66, 98);
+//            String stationLongitude = param.substring(98, 130);
+//            String GPSLatitude = param.substring(130, 162);
+//            String GPSLongititude = param.substring(162, 194);
+//            String batteryVoltage = param.substring(194, 222);
+//            String runTime = param.substring(222, 238);
+//            String signalIntensity = param.substring(238, 252);
+//            String isVibrant = param.substring(252, 262);
+//            String signEnd = param.substring(262, 272);
             String data_crc = param.substring(280, 284);
             String data_need_judge = param.substring(0, 272);//原数据中未含crc数据
             String crc_judge = "";//根据原数据产生的crc
