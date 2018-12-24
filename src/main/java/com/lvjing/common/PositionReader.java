@@ -33,7 +33,7 @@ public class PositionReader {
         StringBuffer stringBuffer = new StringBuffer();
         if(StringUtils.isNotBlank(location)){
             dataPayLoad = location.substring(4);
-            System.out.println(dataPayLoad);
+            //System.out.println(dataPayLoad);
             for(int i = 0;i < dataPayLoad.length();i = i + 2){
                 String str = dataPayLoad.substring(i,i+2);
                 //System.out.println(str);

@@ -29,7 +29,8 @@ public class BatteryVoltageReader {
         StringBuffer stringBuffer = new StringBuffer();
         if(StringUtils.isNotBlank(voltage)){
             dataPayLoad = voltage.substring(4);
-            for(int i = 0;i < dataPayLoad.length();i = i + 2){
+            //System.out.println("电压："+dataPayLoad);
+            for(int i = 0;i < dataPayLoad.length()-2;i = i + 2){
                 String str = dataPayLoad.substring(i,i+2);
                 if(!StringUtils.equals(str,"00")){
                     result = result + str.substring(1);
@@ -37,6 +38,7 @@ public class BatteryVoltageReader {
             }
         }
         String ret0 = result.substring(0,4);
+
         if (result.contains("E") || result.contains("e")) {
             result = result.replaceAll("E", "");
             result = result.replaceAll("e", "");

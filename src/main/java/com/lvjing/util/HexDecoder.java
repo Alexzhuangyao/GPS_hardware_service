@@ -143,7 +143,7 @@ public class HexDecoder {
                 //建立数据库连接
                 conn = DatabaseConnection.getCon();
                 //查询所有参数修改项
-                String configCommand = "SELECT operation_type,content FROM DEVICE_PARAM_CONFIG WHERE device_id = ? and ord_status = '0';";
+                String configCommand = "SELECT operation_type,content,create_time FROM DEVICE_PARAM_CONFIG WHERE device_id = ? and ord_status = '0';";
 
                 PreparedStatement stmt = conn.prepareStatement(configCommand);
                 stmt.setString(1, deviceId);
@@ -160,11 +160,12 @@ public class HexDecoder {
                         case "1":
                             //在线升级，不考虑第二个column
                             //升级成功
-                            String cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time = ? WHERE device_id = ? and operation_type= ? ;";
+                            String cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time = ? WHERE device_id = ? and operation_type= ? and create_time = ?;";
                             PreparedStatement updateCmd = conn.prepareStatement(cmd);
                             updateCmd.setString(1, sdf.format(new Date()));
                             updateCmd.setString(2, deviceId);
                             updateCmd.setString(3, "1");
+                            updateCmd.setString(4, resultSet.getString(3));
                             //执行sql语句
                             System.out.println(updateCmd);
                             updateCmd.executeUpdate();
@@ -211,11 +212,12 @@ public class HexDecoder {
                             result_crc = crcModbus.getCRC(toBytes(str0));
                             result = str0 + "00070002" + result_crc;
                             //设置服务器IP 属不可逆操作。
-                            cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time = ? WHERE device_id = ? and operation_type= ? ;";
+                            cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time = ? WHERE device_id = ? and operation_type= ? and create_time = ?;";
                             PreparedStatement updateIPCmd = conn.prepareStatement(cmd);
                             updateIPCmd.setString(1, sdf.format(new Date()));
                             updateIPCmd.setString(2, deviceId);
                             updateIPCmd.setString(3, "3");
+                            updateIPCmd.setString(4, resultSet.getString(3));
                             //执行sql语句
                             updateIPCmd.executeUpdate();
                             break;
@@ -233,11 +235,12 @@ public class HexDecoder {
                             result_crc = crcModbus.getCRC(toBytes(str0));
                             result = str0 + "00070002" + result_crc;
                             //设置服务器端口 属不可逆操作，又有效率考虑,放在最后。
-                            cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time = ? WHERE device_id = ? and operation_type= ? ;";
+                            cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 2 ,update_time = ? WHERE device_id = ? and operation_type= ? and create_time = ? ;";
                             PreparedStatement updatePortCmd = conn.prepareStatement(cmd);
                             updatePortCmd.setString(1, sdf.format(new Date()));
                             updatePortCmd.setString(2, deviceId);
                             updatePortCmd.setString(3, "4");
+                            updatePortCmd.setString(4, resultSet.getString(3));
                             //执行sql语句
                             updatePortCmd.executeUpdate();
                             break;
@@ -294,12 +297,13 @@ public class HexDecoder {
                             updateGPSSwitchCmd.executeUpdate();
                             //System.out.println(updateGPSSwitchCmd);
                             //workTime1Cmd 用以修改当前状态，从0->1即从0未修改变为1正在修改状态
-                            String GPSSwitch1Cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 1 ,update_time = ? WHERE device_id = ? and operation_type= ? and content = ?;";
+                            String GPSSwitch1Cmd = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 1 ,update_time = ? WHERE device_id = ? and operation_type= ? and content = ? and create_time = ?;";
                             PreparedStatement updateGPSSwitch1Cmd = conn.prepareStatement(GPSSwitch1Cmd);
                             updateGPSSwitch1Cmd.setString(1, sdf.format(new Date()));
                             updateGPSSwitch1Cmd.setString(2, deviceId);
                             updateGPSSwitch1Cmd.setString(3, "6");
                             updateGPSSwitch1Cmd.setString(4, GPSSwitch);
+                            updateGPSSwitch1Cmd.setString(5, resultSet.getString(3));
                             break;
                         case "7":
                             //设置休眠间隔，单位秒,如1200
@@ -352,12 +356,13 @@ public class HexDecoder {
                             //执行sql语句
                             System.out.println(updateStartSwitchCmd);
                             updateStartSwitchCmd.executeUpdate();
-                            String cmd1 = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 1 ,update_time =?  WHERE device_id = ? and operation_type= ? and content = ? ;";
+                            String cmd1 = "UPDATE DEVICE_PARAM_CONFIG SET ord_status = 1 ,update_time =?  WHERE device_id = ? and operation_type= ? and content = ? and create_time = ?;";
                             PreparedStatement updateCmd1 = conn.prepareStatement(cmd1);
                             updateCmd1.setString(1, sdf.format(new Date()));
                             updateCmd1.setString(2, deviceId);
                             updateCmd1.setString(3, "8");
                             updateCmd1.setString(4, fireSwitch);
+                            updateCmd1.setString(5, resultSet.getString(3));
                             //执行sql语句
                             System.out.println(updateCmd1);
                             updateCmd1.executeUpdate();
