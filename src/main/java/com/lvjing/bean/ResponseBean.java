@@ -1,9 +1,9 @@
 package com.lvjing.bean;
 
 /**
- * @Author:HuangHua
+ * @Author:zy
  * @Descirption: 服务接口返回bean
- * @Date: Created by huanghua on 2018/6/5.
+ * @Date: Created by zy on 2018/6/5.
  * @Modified By:
  */
 public class ResponseBean {

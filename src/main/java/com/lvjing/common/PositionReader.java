@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 /**
  * @Author:HuangHua
  * @Descirption:
- * @Date: Created by huanghua on 2018/7/7.
+ * @Date: Created by zy on 2018/7/7.
  * @Modified By:
  */
 @Component
@@ -22,7 +22,7 @@ public class PositionReader {
     public String transform(String location){
         /**
          * @Description: 将asc坐标转换为16进制坐标
-         * @author: Huang Hua
+         * @author: zy
          * @param:  [location]
          * @return: java.lang.String
          * @Date: 2018/7/7

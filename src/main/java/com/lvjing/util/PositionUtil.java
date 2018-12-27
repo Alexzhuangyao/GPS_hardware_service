@@ -4,9 +4,9 @@ import com.lvjing.bean.Gps;
 import org.springframework.stereotype.Service;
 
 /**
- * @Author:HuangHua
+ * @Author:zy
  * @Descirption: 
- * @Date: Created by huanghua on 2018/7/20.
+ * @Date: Created by zy on 2018/7/20.
  * @Modified By:
  */
 @Service

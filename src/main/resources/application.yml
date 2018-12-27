@@ -12,9 +12,9 @@ spring:
 spring:
   profiles: test
   datasource:
-      url: jdbc:mysql://39.106.10.110:3306/lvjingcleaning?useUnicode=true&characterEncoding=UTF-8&useSSL=true
-      username: test
-      password: test123!@#
+      url: jdbc:mysql://xxx.xxx.xxx.xxx:3306/xxxxxxxxxx?useUnicode=true&characterEncoding=UTF-8&useSSL=true
+      username: xxxx
+      password: xxxx
       driver-class-name: com.mysql.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -36,9 +36,9 @@ spring:
 
   profiles: dev
   datasource:
-    url: jdbc:mysql://rm-bp170nx0g4w9s946x0o.mysql.rds.aliyuncs.com:3306/lvjingcleaning?useUnicode=true&characterEncoding=UTF-8&useSSL=true
-    username: root
-    password: root123!@#
+    url: jdbc:mysql://xxxxxxxx:xxxxx/lvjingcleaning?useUnicode=true&characterEncoding=UTF-8&useSSL=true
+    username: xxxxx
+    password: xxxxxxx
     driver-class-name: com.mysql.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

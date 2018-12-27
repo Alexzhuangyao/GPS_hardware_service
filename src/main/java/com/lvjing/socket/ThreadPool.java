@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 /**
- * @Author:HuangHua
+ * @Author:zy
  * @Descirption: TCP服务线程池
- * @Date: Created by huanghua on 2018/6/25.
+ * @Date: Created by zy on 2018/6/25.
  * @Modified By:
  */
 @SuppressWarnings("ALL")

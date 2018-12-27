@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * @Author:HuangHua
  * @Descirption: 电池电压转换
- * @Date: Created by huanghua on 2018/7/7.
+ * @Date: Created by zy on 2018/7/7.
  * @Modified By:
  */
 @Component
@@ -18,7 +18,7 @@ public class BatteryVoltageReader {
     public String transform(String voltage){
         /**
          * @Description: 将电压转换为十进制
-         * @author: Huang Hua
+         * @author: zy
          * @param:  [voltage]
          * @return: java.lang.String
          * @Date: 2018/7/7

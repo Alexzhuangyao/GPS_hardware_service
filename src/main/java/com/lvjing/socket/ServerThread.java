@@ -26,9 +26,9 @@ import java.util.Date;
 
 
 /**
- * @Author:HuangHua
+ * @Author:zy
  * @Descirption:
- * @Date: Created by huanghua on 2018/6/15.
+ * @Date: Created by zy on 2018/6/15.
  * @Modified By:
  */
 public class ServerThread implements Runnable {

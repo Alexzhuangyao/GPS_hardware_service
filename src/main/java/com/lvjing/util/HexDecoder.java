@@ -13,9 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @Author:HuangHua
+ * @Author:zy
  * @Descirption: 16进制字符串处理
- * @Date: Created by huanghua on 2018/6/11.
+ * @Date: Created by zy on 2018/6/11.
  * @Modified By:
  */
 @Component
@@ -29,7 +29,7 @@ public class HexDecoder {
     public String readRegisterFrame(String param) {
         /**
          * @Description: 读取注册帧
-         * @author: Huang Hua
+         * @author: zy
          * @param: [param]
          * @return: java.lang.String
          * @Date: 2018/6/11

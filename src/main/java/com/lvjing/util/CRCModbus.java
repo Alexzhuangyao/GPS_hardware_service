@@ -3,9 +3,9 @@ package com.lvjing.util;
 import org.springframework.stereotype.Component;
 
 /**
- * @Author:HuangHua
+ * @Author:zy
  * @Descirption: CRC校验码工具类
- * @Date: Created by huanghua on 2018/6/12.
+ * @Date: Created by zy on 2018/6/12.
  * @Modified By:
  */
 @Component
@@ -35,7 +35,7 @@ public class CRCModbus {
     public String getCRC(byte[] bytes){
         /**
          * @Description: 生成CRC循环冗余校验码
-         * @author: Huang Hua
+         * @author: zy
          * @param:  [bytes]
          * @return: java.lang.String
          * @Date: 2018/6/12
